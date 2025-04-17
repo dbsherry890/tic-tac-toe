@@ -3,23 +3,10 @@ import Board from "./Board";
 import GameOver from "./GameOver";
 import GameState from "./GameState";
 import Reset from "./Reset";
+import { winningCombinations } from "./WinningCombos";
 
 const PLAYER_X = "X";
 const PLAYER_O = "O";
-
-const winningCombinations = [
-  //Rows
-  { combo: [0, 1, 2], strikeClass: "strike-row-1" },
-  { combo: [3, 4, 5], strikeClass: "strike-row-2" },
-  { combo: [6, 7, 8], strikeClass: "strike-row-3" },
-  //Columns
-  { combo: [0, 3, 6], strikeClass: "strike-column-1" },
-  { combo: [1, 4, 7], strikeClass: "strike-column-2" },
-  { combo: [2, 5, 8], strikeClass: "strike-column-3" },
-  //Diagonals
-  { combo: [0, 4, 8], strikeClass: "strike-diagonal-1" },
-  { combo: [2, 4, 6], strikeClass: "strike-diagonal-2" },
-];
 
 function checkWinner(tiles, setStrikeClass, setGameState) {
   for (const { combo, strikeClass } of winningCombinations) {
@@ -64,7 +51,7 @@ export default function TicTacToe() {
     }
 
     if (tiles[index] !== null) {
-      return;
+      return; //prevent the player from selecting a tile that has already been selected
     }
 
     const newTiles = [...tiles];
@@ -94,67 +81,3 @@ export default function TicTacToe() {
     </div>
   );
 }
-
-// export default function Game() {
-//   const [history, setHistory] = useState([Array(9).fill(null)]);
-//   const [currentMove, setCurrentMove] = useState(0);
-//   const xIsNext = currentMove % 2 === 0;
-//   const currentSquares = history[currentMove];
-
-//   function handlePlay(nextSquares) {
-//     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
-//     setHistory(nextHistory);
-//     setCurrentMove(nextHistory.length - 1);
-//   }
-
-//   function jumpTo(nextMove) {
-//     setCurrentMove(nextMove);
-//   }
-
-//   const moves = history.map((squares, move) => {
-//     let description;
-//     if (move > 0) {
-//       description = "Go to move #" + move;
-//     } else {
-//       description = "Go to game start";
-//     }
-//     return (
-//       <li key="{move}">
-//         <button onClick={() => jumpTo(move)}>
-//           {move === currentMove ? <b>{description}</b> : description}
-//         </button>
-//       </li>
-//     );
-//   });
-
-//   return (
-//     <div className="game">
-//       <div className="game-board">
-//         <Board xIsNext={xIsNext} squares={currentSquares} onPlay={handlePlay} />
-//       </div>
-//       <div className="game-info">
-//         <ol>{moves}</ol>
-//       </div>
-//     </div>
-//   );
-// }
-
-// function calculateWinner(squares) {
-//   const lines = [
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8],
-//     [0, 3, 6],
-//     [1, 4, 7],
-//     [2, 5, 8],
-//     [0, 4, 8],
-//     [2, 4, 6],
-//   ];
-//   for (let i = 0; i < lines.length; i++) {
-//     const [a, b, c] = lines[i];
-//     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-//       return squares[a];
-//     }
-//   }
-//   return null;
-// }
